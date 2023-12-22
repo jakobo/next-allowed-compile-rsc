@@ -1,3 +1,19 @@
+# Changes In Repository
+
+* A `next lint` command was added to the `package.json`
+* `.eslintrc.json` was created with the strictest mode possible
+* `app/client.tsx` was created as a client-only component, but missing the `use client` directive
+
+# Expected
+
+* Running `next lint` should generate an error in `client.tsx` for using client-only declarations without the `use client` directive
+
+# Actual
+
+* No errors are generated on lint
+
+<hr />
+
 This is a [Next.js](https://nextjs.org/) template to use when reporting a [bug in the Next.js repository](https://github.com/vercel/next.js/issues) with the `app/` directory.
 
 ## Getting Started
