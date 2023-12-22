@@ -2,15 +2,41 @@
 
 * A `next lint` command was added to the `package.json`
 * `.eslintrc.json` was created with the strictest mode possible
-* `app/client.tsx` was created as a client-only component, but missing the `use client` directive
+
+* `client.tsx` was created with a client-only declaration without the `use client` directive
+* `page.tsx` was modified to call `client.tsx`
+* An identical structure was created under the `[id]` route segment.
 
 # Expected
 
-* Running `next lint` should generate an error in `client.tsx` for using client-only declarations without the `use client` directive
+* Commenting out both `use client` directives and running `next lint` should generate an error in both `client.tsx` for using client-only declarations without the `use client` directive
+* `next build` should fail the build in both scenarios
 
 # Actual
 
 * No errors are generated on lint
+* As committed, `next build` allows the build, which results in a `500` error accessing the page via `pnpm start --port 3000` and visiting `localhost:3000/a`
+
+```
+[Error: An error occurred in the Server Components render. The specific message is omitted in production builds to avoid leaking sensitive details. A digest property is included on this error instance which may provide additional details about the nature of the error.] {
+  digest: '243405769'
+}
+```
+
+```
+Error: Event handlers cannot be passed to Client Component props.
+  {src: ..., onError: function, alt: ...}
+                      ^^^^^^^^
+If you need interactivity, consider converting part of this to a Client Component.
+    at /home/jakobo/code/nextjs/allowed-compile-rsc/node_modules/.pnpm/next@14.0.4_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:142759
+    at Object.toJSON (/home/jakobo/code/nextjs/allowed-compile-rsc/node_modules/.pnpm/next@14.0.4_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:143612)
+    at stringify (<anonymous>)
+    at eE (/home/jakobo/code/nextjs/allowed-compile-rsc/node_modules/.pnpm/next@14.0.4_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:131997)
+    at eR (/home/jakobo/code/nextjs/allowed-compile-rsc/node_modules/.pnpm/next@14.0.4_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:132440)
+    at Timeout._onTimeout (/home/jakobo/code/nextjs/allowed-compile-rsc/node_modules/.pnpm/next@14.0.4_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:129220)
+    at listOnTimeout (node:internal/timers:569:17)
+    at process.processTimers (node:internal/timers:512:7)
+```
 
 <hr />
 

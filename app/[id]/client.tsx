@@ -1,6 +1,6 @@
-"use client";
+// "use client";
 // commenting this directive out will NOT cause a linting error (incorrect)
-// commenting this directive out will cause a build error (correct)
+// commenting this directive out will NOT cause a build error (incorrect)
 
 import { useCallback } from "react";
 
